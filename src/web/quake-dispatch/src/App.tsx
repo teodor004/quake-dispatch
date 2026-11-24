@@ -67,7 +67,7 @@ export default function App() {
       />
 
       <main className="dashboard">
-        <h1 className="visually-hidden">QuakeMeUp, monitorizarea rețelei de senzori seismici</h1>
+        <h1 className="visually-hidden">quake-dispatch, monitorizarea rețelei de senzori seismici</h1>
 
         {/* 1. Latest values */}
         <LatestValues

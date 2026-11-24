@@ -13,7 +13,7 @@ import type { GeoPoint } from '../types'
 const ENDPOINT = 'https://nominatim.openstreetmap.org/reverse'
 const MIN_GAP_MS = 1100
 const RETRY_AFTER_MS = 60_000
-const STORAGE_KEY = 'quakemeup.places.v2'
+const STORAGE_KEY = 'quake-dispatch.places.v2'
 const MAX_STORED = 500
 
 /** Cache key rounded to ~1 km: GPS jitter and nearby phones share one lookup. */

@@ -13,7 +13,7 @@ import urllib.request
 from xml.sax.saxutils import escape
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
-NOMINATIM_USER_AGENT = "QuakeMeUp-EarthquakeAlert/1.0"
+NOMINATIM_USER_AGENT = "QuakeDispatch-EarthquakeAlert/1.0"
 AREA_KEYS = ("neighbourhood", "suburb", "quarter", "city_district", "village")
 CITY_KEYS = ("city", "town", "municipality", "county")
 

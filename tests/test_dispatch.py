@@ -63,7 +63,7 @@ def test_resolve_area_formats_neighborhood_and_city_and_sends_headers(monkeypatc
     assert area == "the Mărăști area of Cluj-Napoca"
     assert "nominatim.openstreetmap.org/reverse" in captured["url"]
     assert "zoom=14" in captured["url"]
-    assert captured["ua"] == "QuakeMeUp-EarthquakeAlert/1.0"
+    assert captured["ua"] == "QuakeDispatch-EarthquakeAlert/1.0"
     assert captured["lang"] == "en"
     assert captured["timeout"] == 2.5
 

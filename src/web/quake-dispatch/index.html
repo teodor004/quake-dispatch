@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Monitorizarea rețelei de senzori seismici QuakeMeUp" />
-    <title>QuakeMeUp</title>
+    <meta name="description" content="Monitorizarea rețelei de senzori seismici quake-dispatch" />
+    <title>quake-dispatch</title>
     <script>
       // Apply the saved theme before the first paint, so the page never flashes. Dark by default:
       // it is a monitoring screen, often shown on a projector in a dim room.
       document.documentElement.dataset.theme = 'dark'
       try {
-        var t = localStorage.getItem('quakemeup-theme')
+        var t = localStorage.getItem('quake-dispatch-theme')
         if (t === 'light') document.documentElement.dataset.theme = 'light'
       } catch (e) {}
     </script>

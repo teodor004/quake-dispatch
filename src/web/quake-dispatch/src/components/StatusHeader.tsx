@@ -21,7 +21,7 @@ export function StatusHeader({ activeEvent, calmText }: Props) {
       <div className="status-header-brand">
         <Mark />
         <div>
-          <p className="status-header-name">QuakeMeUp</p>
+          <p className="status-header-name">quake-dispatch</p>
           <p className="status-header-sub">Rețeaua de senzori seismici</p>
         </div>
       </div>

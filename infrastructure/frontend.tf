@@ -1,4 +1,4 @@
-# Dashboard-ul (src/web/QuakeMeUp): fisiere statice in S3 privat, servite prin CloudFront (HTTPS).
+# Dashboard-ul (src/web/quake-dispatch): fisiere statice in S3 privat, servite prin CloudFront (HTTPS).
 # Fisierele le urca workflow-ul de deploy (aws s3 sync), nu Terraform.
 
 data "aws_caller_identity" "current" {}

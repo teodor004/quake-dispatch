@@ -1,15 +1,14 @@
-# QuakeMeUp — Real-Time Crowdsourced Earthquake Detection & Emergency Dispatch
+# quake-dispatch — Real-Time Crowdsourced Earthquake Detection & Emergency Dispatch
 
-**Team:** Capsunelele  
 **Live Dashboard:** https://d263qjwp94jbgt.cloudfront.net  
 **API Endpoint:** https://u90us4gdu6.execute-api.eu-central-1.amazonaws.com  
-**Presentation:** [`presentation/DataInfrastructure_Capsunelele.pptx`](presentation/DataInfrastructure_Capsunelele.pptx)
+**Presentation:** [`presentation/quake-dispatch.pptx`](presentation/quake-dispatch.pptx)
 
 ---
 
 ## 1. Solution Description
 
-**QuakeMeUp** turns everyday Android and iOS smartphones into a distributed real-time seismic sensor network. Phones stream raw 20 Hz accelerometer, gyroscope, and GPS telemetry to AWS, where a pure-Python cloud pipeline filters out everyday human handling, detects genuine seismic shaking across multiple nearby devices via spatial/temporal quorum, visualizes live network state on a public web dashboard, and automatically alerts responders via **email (AWS SNS)** and an **automated emergency voice dispatch call (Twilio + Amazon Polly + OpenStreetMap reverse geocoding)**.
+**quake-dispatch** turns everyday Android and iOS smartphones into a distributed real-time seismic sensor network. Phones stream raw 20 Hz accelerometer, gyroscope, and GPS telemetry to AWS, where a pure-Python cloud pipeline filters out everyday human handling, detects genuine seismic shaking across multiple nearby devices via spatial/temporal quorum, visualizes live network state on a public web dashboard, and automatically alerts responders via **email (AWS SNS)** and an **automated emergency voice dispatch call (Twilio + Amazon Polly + OpenStreetMap reverse geocoding)**.
 
 ### End-to-End Architecture
 
@@ -26,7 +25,7 @@ flowchart LR
     H -->|Publish Alert| J["AWS SNS: quake-alerts-topic"]
     J --> K["Email Alert"]
     J --> L["AWS Lambda: dispatch.py<br/>Nominatim Area + Twilio Voice Call"]
-    G & I -->|"GET /events, /devices, /alerts"| M["QuakeMeUp Dashboard<br/>S3 + CloudFront"]
+    G & I -->|"GET /events, /devices, /alerts"| M["quake-dispatch Dashboard<br/>S3 + CloudFront"]
 ```
 
 ### Key Technical Highlights
@@ -36,7 +35,7 @@ flowchart LR
   - `process.py`: Per-device arming gate (`DeviceState`), 1-second windowing, RMS, PGA, variance, pure-Python 3-axis signed DFT dominant frequency (1–8 Hz), STA/LTA ratio, sustained multi-second confirmation (`MIN_SUSTAINED_WINDOWS = 2`, `MIN_ACTIVE_FRACTION = 0.50`), and gyroscope/tilt/crest-factor rejection to filter out pocket/hand movement and brief taps.
   - `correlate.py`: Pure-Python Haversine spatial/temporal quorum across nearby active devices with onset synchronization and per-zone cooldown deduplication.
   - `dispatch.py`: Subscribed to `quake-alerts-topic`; reverse-geocodes `(lat, lon)` to a human-readable neighborhood + city via OpenStreetMap Nominatim (with safe coordinate fallback) and places an automated voice dispatch call via Twilio (Polly TTS) or AWS End User Messaging Voice.
-- **Web Dashboard (`src/web/QuakeMeUp/`)**: Publicly hosted on S3 + CloudFront. Displays live pipeline health (`Sensors → DynamoDB → API` status bar with explicit `503 db_unavailable` detection), device context (IDs, armed/unarmed status, locality, interactive Leaflet map), latest acceleration values and last-updated timestamps, deeper real-time & historical acceleration charts (`GET /events` returns up to 300/500 latest points via `RecentEventsIndex` GSI), backend-authoritative trigger timeline (`is_trigger`), and persistent earthquake history (`GET /alerts`).
+- **Web Dashboard (`src/web/quake-dispatch/`)**: Publicly hosted on S3 + CloudFront. Displays live pipeline health (`Sensors → DynamoDB → API` status bar with explicit `503 db_unavailable` detection), device context (IDs, armed/unarmed status, locality, interactive Leaflet map), latest acceleration values and last-updated timestamps, deeper real-time & historical acceleration charts (`GET /events` returns up to 300/500 latest points via `RecentEventsIndex` GSI), backend-authoritative trigger timeline (`is_trigger`), and persistent earthquake history (`GET /alerts`).
 - **Reproducible IaC & CI/CD (`infrastructure/`, `.github/workflows/`)**: Full Terraform configuration with remote S3 state + DynamoDB locking and GitHub Actions OIDC deployment (no static AWS keys in the repository), including backend `ruff` + `pytest`, dashboard `eslint` + `vitest` + `vite build`, mobile `tsc --noEmit`, `gitleaks` secret scanning, `terraform fmt/validate/apply`, and post-deploy live HTTP smoke tests.
 
 ---
@@ -44,14 +43,14 @@ flowchart LR
 ## 2. Repository Structure
 
 ```text
-DataInfrastructure_Capsunelele/
+quake-dispatch/
 ├── .github/workflows/       # CI (ruff, pytest, vitest, mobile tsc, gitleaks, terraform) & CD (deploy + smoke test)
 ├── infrastructure/          # Terraform IaC (Lambda, DynamoDB, API Gateway, SNS, S3, CloudFront, OIDC bootstrap)
-├── presentation/            # Official hackathon presentation (DataInfrastructure_Capsunelele.pptx)
+├── presentation/            # Project presentation (quake-dispatch.pptx)
 ├── src/
 │   ├── backend/             # Pure-Python 3.12 AWS Lambda modules (ingest, preprocess, process, correlate, dispatch)
 │   ├── mobile/              # Cross-platform Expo React Native (TypeScript) sensor collector app
-│   └── web/QuakeMeUp/       # React + Vite + TypeScript live seismic dashboard
+│   └── web/quake-dispatch/  # React + Vite + TypeScript live seismic dashboard
 ├── tests/                   # Automated pytest test suite (55 backend tests)
 └── tools/                   # Offline batch export & replay utilities
 ```
@@ -73,8 +72,8 @@ DataInfrastructure_Capsunelele/
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/swwdxsama/DataInfrastructure_Capsunelele.git
-cd DataInfrastructure_Capsunelele
+git clone https://github.com/swwdxsama/DataInfrastructure_Capsunelele.git quake-dispatch
+cd quake-dispatch
 ```
 
 ### Backend (Local Dev & Tests)
@@ -90,7 +89,7 @@ npm install
 
 ### Web Dashboard
 ```bash
-cd src/web/QuakeMeUp
+cd src/web/quake-dispatch
 npm ci
 cp .env.example .env.local
 ```
@@ -125,7 +124,7 @@ npx expo start --tunnel ngrok
 - **Production (CloudFront):** https://d263qjwp94jbgt.cloudfront.net
 - **Local Development:**
   ```bash
-  cd src/web/QuakeMeUp
+  cd src/web/quake-dispatch
   npm run dev
   ```
 
@@ -139,7 +138,7 @@ pytest -v
 cd src/mobile && npx tsc --noEmit
 
 # Dashboard lint, Vitest unit tests & production build
-cd src/web/QuakeMeUp && npm run lint && npm test && npm run build
+cd src/web/quake-dispatch && npm run lint && npm test && npm run build
 ```
 
 ---

@@ -93,7 +93,7 @@ jobs:
     # (repo:...:environment:<nume>), pe care rolul de deploy nu il accepta.
     defaults:
       run:
-        working-directory: src/web/QuakeMeUp
+        working-directory: src/web/quake-dispatch
     steps:
       - uses: actions/checkout@v4
 
@@ -101,7 +101,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: src/web/QuakeMeUp/package-lock.json
+          cache-dependency-path: src/web/quake-dispatch/package-lock.json
 
       - name: Build
         env:

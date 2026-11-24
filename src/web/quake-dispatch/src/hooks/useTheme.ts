@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react'
 
 export type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'quakemeup-theme'
+const THEME_STORAGE_KEY = 'quake-dispatch-theme'
 const listeners = new Set<() => void>()
 
 function read(): Theme {
@@ -12,7 +12,7 @@ function read(): Theme {
 export function setTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme
   try {
-    localStorage.setItem(STORAGE_KEY, theme)
+    localStorage.setItem(THEME_STORAGE_KEY, theme)
   } catch {
     // Storage blocked: the choice still applies for this visit.
   }

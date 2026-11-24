@@ -1,4 +1,4 @@
-# QuakeMeUp, dashboard
+# quake-dispatch, dashboard
 
 Dashboard-ul rețelei de detectare a cutremurelor. Telefoanele Android trimit accelerometru, giroscop, GPS și baterie prin AWS IoT Core → Lambda → DynamoDB; dashboard-ul citește API-ul la fiecare 2 secunde.
 
