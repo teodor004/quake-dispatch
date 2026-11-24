@@ -72,7 +72,7 @@ quake-dispatch/
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/swwdxsama/DataInfrastructure_Capsunelele.git quake-dispatch
+git clone https://github.com/teodor004/quake-dispatch.git
 cd quake-dispatch
 ```
 
